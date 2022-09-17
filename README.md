@@ -1,6 +1,6 @@
 # Classic Arcade Game Clone Project
 
-##[Demo](https://rahmanoff.github.io/frontend-nanodegree-arcade-game/)
+[Demo](https://rahmanoff.github.io/frontend-nanodegree-arcade-game/)
 
 ## Table of Contents
 
