@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-let Enemy = function(x, y, speed) {
+ Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -41,7 +41,7 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 let Player = function(x, y) {
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-cat-girl.png';
     this.x = x;
     this.y = y;
 };
