@@ -1,5 +1,5 @@
 // Enemies our player must avoid
- Enemy = function(x, y, speed) {
+ let Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -18,9 +18,9 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     this.x += this.speed * dt;
 
-    if (this.x > 410) {
-        this.x = 0;
-        this.speed = 111 + Math.floor(Math.random() * 222);
+    if (this.x > 510) {
+        this.x = -100;
+        this.speed = 111 + Math.floor(Math.random() * 111);
     }
 
     if (player.x < this.x + 80 &&
@@ -77,15 +77,18 @@ Player.prototype.handleInput = function(keyPress) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
-let enemyLocation = [60, 145, 225];
 
-enemyLocation.forEach(function (locationY) {
+const ENEMY_LOCATIONS_Y = [60, 145, 225];
+
+ENEMY_LOCATIONS_Y.forEach(function (locationY) {
     let enemy = new Enemy(0, locationY, 200);
     allEnemies.push(enemy);
 });
 
 // Place the player object in a variable called player
-let player = new Player(200, 375);
+const PLAYER_X = 200;
+const PLAYER_Y = 375;
+let player = new Player(PLAYER_X, PLAYER_Y);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
