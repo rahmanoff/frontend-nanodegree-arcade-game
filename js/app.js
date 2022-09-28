@@ -1,3 +1,11 @@
+const X_ENEMY_START = -100;
+const X_ENEMY_FINISH = 510;
+const ENEMY_SPEED_RATIO = 100;
+const PLAYER_RESTART_DELAY = 777;
+const ENEMY_LOCATIONS_Y = [60, 145, 225];
+const PLAYER_START_X = 200;
+const PLAYER_START_Y = 375;
+
 // Enemies our player must avoid
  let Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -12,24 +20,17 @@
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
+
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
 
-    if (this.x > 510) {
-        this.x = -100;
-        this.speed = 111 + Math.floor(Math.random() * 111);
+    if (this.x > X_ENEMY_FINISH) {
+        this.x = X_ENEMY_START;
+        this.speed = ENEMY_SPEED_RATIO + Math.floor(Math.random() * ENEMY_SPEED_RATIO);
     }
-
-    if (player.x < this.x + 80 &&
-        player.x + 80 > this.x &&
-        player.y < this.y + 60 &&
-        60 + player.y > this.y) {
-            player.x = 205;
-            player.y = 405;
-        }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -47,6 +48,13 @@ let Player = function(x, y) {
 };
 
 Player.prototype.update = function() {
+    if (player.x < this.x + 80 &&
+        player.x + 80 > this.x &&
+        player.y < this.y + 60 &&
+        60 + player.y > this.y) {
+            player.x = 205;
+            player.y = 405;
+        }
 };
 
 Player.prototype.render = function() {
@@ -70,7 +78,7 @@ Player.prototype.handleInput = function(keyPress) {
         setTimeout(function() {
             player.x = 200;
             player.y = 375;
-        }, 777);
+        }, PLAYER_RESTART_DELAY);
     };
 };
 
@@ -78,17 +86,13 @@ Player.prototype.handleInput = function(keyPress) {
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
 
-const ENEMY_LOCATIONS_Y = [60, 145, 225];
-
 ENEMY_LOCATIONS_Y.forEach(function (locationY) {
     let enemy = new Enemy(0, locationY, 200);
     allEnemies.push(enemy);
 });
 
 // Place the player object in a variable called player
-const PLAYER_X = 200;
-const PLAYER_Y = 375;
-let player = new Player(PLAYER_X, PLAYER_Y);
+let player = new Player(PLAYER_START_X, PLAYER_START_Y);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
