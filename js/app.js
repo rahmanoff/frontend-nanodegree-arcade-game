@@ -1,13 +1,38 @@
-const X_ENEMY_START = -100;
-const X_ENEMY_FINISH = 510;
-const ENEMY_SPEED_RATIO = 100;
-const PLAYER_RESTART_DELAY = 777;
-const ENEMY_LOCATIONS_Y = [60, 145, 225];
-const PLAYER_START_X = 200;
-const PLAYER_START_Y = 375;
-
 // Enemies our player must avoid
- let Enemy = function(x, y, speed) {
+const X_ENEMY = {
+    min: -100,
+    max: 510,
+};
+
+const ENEMY_SPEED = {
+    min: 50,
+    max: 100,
+};
+const ENEMY_LOCATIONS_Y = [60, 145, 225];
+
+const SECTION = {
+    width: 100,
+    height: 80,
+};
+
+const CANVAS = {
+    start: 0,
+    rows: 5,
+    columns: 4,
+};
+
+const CANVAS_WIDTH = SECTION.width * CANVAS.columns;
+const CANVAS_HEIGHT = SECTION.height * CANVAS.rows;
+
+const PLAYER_COORDS = {
+    x: 200,
+    y: 375,
+};
+const PLAYER_SHIFT = 60;
+const NEW_PLAYER_DELAY = 777;
+
+
+let Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -21,16 +46,25 @@ const PLAYER_START_Y = 375;
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
+
+
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
 
-    if (this.x > X_ENEMY_FINISH) {
-        this.x = X_ENEMY_START;
-        this.speed = ENEMY_SPEED_RATIO + Math.floor(Math.random() * ENEMY_SPEED_RATIO);
+    if (this.x > X_ENEMY.max) {
+        this.x = X_ENEMY.min;
+        this.speed = ENEMY_SPEED.min + Math.floor(Math.random() * ENEMY_SPEED.max);
     }
+    if (player.x < this.x + SECTION.height &&
+        player.x + SECTION.height > this.x &&
+        player.y < this.y + PLAYER_SHIFT &&
+        PLAYER_SHIFT + player.y > this.y) {
+            player.x = PLAYER_COORDS.x;
+            player.y = PLAYER_COORDS.y;
+        }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -48,13 +82,7 @@ let Player = function(x, y) {
 };
 
 Player.prototype.update = function() {
-    if (player.x < this.x + 80 &&
-        player.x + 80 > this.x &&
-        player.y < this.y + 60 &&
-        60 + player.y > this.y) {
-            player.x = 205;
-            player.y = 405;
-        }
+    
 };
 
 Player.prototype.render = function() {
@@ -62,23 +90,23 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(keyPress) {
-    if (keyPress == 'left' && this.x > 0) {
-        this.x -= 105;
+    if (keyPress == 'left' && this.x > CANVAS.columns) {
+        this.x -= SECTION.width;
     };
-    if (keyPress == 'right' && this.x < 400) {
-        this.x += 105;
+    if (keyPress == 'right' && this.x < CANVAS_WIDTH) {
+        this.x += SECTION.width;
     };
-    if (keyPress == 'up' && this.y > 0) {
-        this.y -= 85;
+    if (keyPress == 'up' && this.y > CANVAS.start) {
+        this.y -= SECTION.height;
     };
-    if (keyPress == 'down' && this.y < 350) {
-        this.y += 85;
+    if (keyPress == 'down' && this.y < CANVAS_WIDTH - PLAYER_SHIFT) {
+        this.y += SECTION.height;
     };
-    if (this.y < 0) {
+    if (this.y < CANVAS.start) {
         setTimeout(function() {
-            player.x = 200;
-            player.y = 375;
-        }, PLAYER_RESTART_DELAY);
+            player.x = PLAYER_COORDS.x;
+            player.y = PLAYER_COORDS.y;
+        }, NEW_PLAYER_DELAY);
     };
 };
 
@@ -86,13 +114,16 @@ Player.prototype.handleInput = function(keyPress) {
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
 
+
+
 ENEMY_LOCATIONS_Y.forEach(function (locationY) {
-    let enemy = new Enemy(0, locationY, 200);
+    let enemy = new Enemy(CANVAS.start, locationY, ENEMY_SPEED.max);
     allEnemies.push(enemy);
 });
 
 // Place the player object in a variable called player
-let player = new Player(PLAYER_START_X, PLAYER_START_Y);
+
+let player = new Player(PLAYER_COORDS.x, PLAYER_COORDS.y);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
