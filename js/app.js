@@ -46,8 +46,6 @@ let Enemy = function(x, y, speed) {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
-
-
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -113,8 +111,6 @@ Player.prototype.handleInput = function(keyPress) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
-
-
 
 ENEMY_LOCATIONS_Y.forEach(function (locationY) {
     let enemy = new Enemy(CANVAS.start, locationY, ENEMY_SPEED.max);
