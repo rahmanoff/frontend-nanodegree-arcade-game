@@ -32,7 +32,7 @@ const PLAYER_SHIFT = 60;
 const NEW_PLAYER_DELAY = 777;
 
 
-let Enemy = function(x, y, speed) {
+let Enemy = function(x, y, speed, player) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -41,6 +41,7 @@ let Enemy = function(x, y, speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.player = player;
 };
 
 // Update the enemy's position, required method for game
@@ -101,7 +102,7 @@ Player.prototype.handleInput = function(keyPress) {
         this.y += SECTION.height;
     };
     if (this.y < CANVAS.start) {
-        setTimeout(function() {
+        setTimeout(() => {
             player.x = PLAYER_COORDS.x;
             player.y = PLAYER_COORDS.y;
         }, NEW_PLAYER_DELAY);
@@ -130,6 +131,5 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
